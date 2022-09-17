@@ -10,34 +10,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-
+ @CrossOrigin
 @RestController
 @RequestMapping(LiftController.LIFT_ROOT_PATH)
 @RequiredArgsConstructor
 public class LiftController {
-    public static final String LIFT_ROOT_PATH = "lift/api/v1";
+    public static final String LIFT_ROOT_PATH = "/lift/api/v1";
 
     private final LiftDomainService liftDomainService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @PostMapping("/{floor}")
-    public ResponseEntity<UUID> createLift(@RequestBody short floor) {
-        UUID uuid = liftDomainService.createLiftFloor(floor);
-        return ResponseEntity.ok(uuid);
-    }
-
+   
     @PostMapping("/{id}/{floor}")
     public ResponseEntity updateLiftFloor(@PathVariable UUID id, @RequestBody short floor) {
         liftDomainService.updateLiftFloor(id, floor);
         return ResponseEntity.ok(ResponseEntity.noContent());
     }
 
-    @MessageMapping("/meetings/{id}/themes/{themeEnum}")
-    public ResponseEntity matchPairs(@PathVariable UUID id, @RequestBody Theme theme) {
-        UUID matchId = liftDomainService.matchPairs(id, theme);
+    @GetMapping("/meetings/{id}/themes/{themeEnum}/roomId/{roomId}")
+    public ResponseEntity matchPairs(@PathVariable UUID id, @PathVariable String themeEnum, @PathVariable String roomId) {
+        String matchId = liftDomainService.matchPairs(id, Theme.valueOf(themeEnum),roomId);
 
-        simpMessagingTemplate.convertAndSend("/topic/meetings/" + matchId.toString(), theme);
+        //simpMessagingTemplate.convertAndSend("/topic/meetings/" + matchId.toString(), theme);
 
-        return ResponseEntity.ok(ResponseEntity.noContent());
+        return ResponseEntity.ok(matchId);
     }
+
+   
+    @GetMapping("/getKey")
+    public ResponseEntity<UUID> createLift() {
+        UUID uuid = liftDomainService.createLift();
+        return ResponseEntity.ok(uuid);
+    }
+
 }

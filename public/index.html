@@ -22,6 +22,7 @@
     <title>LiftTime</title>
   </head>
   <body>
+    <input type="hidden" id="room-id" class="mdc-text-field__input">
     <div class="customContainer">
       <div class="row">
         <div class="col-12 floorContainer">
@@ -109,11 +110,11 @@
         >
           <a
             class="nav-link active text-center"
-            id="v-pills-home-tab"
+            id="pillsTheme-tab"
             data-toggle="pill"
-            href="#v-pills-home"
+            href="#pillsTheme"
             role="tab"
-            aria-controls="v-pills-home"
+            aria-controls="pillsTheme"
             aria-selected="true"
             >Video Conferance</a
           >
@@ -149,7 +150,7 @@
           >
           <a
             class="nav-link text-center"
-            id="v-pills-settings-tab"
+            id="v-fun-videos-settings-tab"
             data-toggle="pill"
             href="#v-pills-settings"
             role="tab"
@@ -161,14 +162,15 @@
         <div class="tab-content col-8" id="v-pills-tabContent">
           <div
             class="tab-pane fade show active"
-            id="v-pills-home"
+            id="pillsTheme"
             role="tabpanel"
-            aria-labelledby="v-pills-home-tab"
+            aria-labelledby="pillsTheme-tab"
           >
-            <button class="btn btn-warning btn-lg btn-block">Sport</button>
-            <button class="btn btn-warning btn-lg btn-block">Magazine</button>
-            <button class="btn btn-warning btn-lg btn-block">National</button>
+            <button class="btn btn-warning btn-lg btn-block" id="btnSport" value="0">Sport</button>
+            <button class="btn btn-warning btn-lg btn-block" id="btnMagazine" value="1">Magazine</button>
+            <button class="btn btn-warning btn-lg btn-block" id="btnNational" value="2">National</button>
 
+            <div id="waitingDiv" style="display: none;"> <span>Please Wait...</span></div>
             <video id="localVideo" muted autoplay playsinline></video>
           </div>
           <div
@@ -254,7 +256,9 @@
       crossorigin="anonymous"
     ></script>
 
+    <script src="app.js"></script>
     <script src="script.js"></script>
+    
   
 
   </body>

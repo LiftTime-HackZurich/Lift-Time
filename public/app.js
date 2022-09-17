@@ -1,4 +1,4 @@
-mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
+//mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
 
 const configuration = {
   iceServers: [
@@ -19,16 +19,14 @@ let roomDialog = null;
 let roomId = null;
 
 function init() {
-  document.querySelector('#cameraBtn').addEventListener('click', openUserMedia);
+  /*document.querySelector('#cameraBtn').addEventListener('click', openUserMedia);
   document.querySelector('#hangupBtn').addEventListener('click', hangUp);
   document.querySelector('#createBtn').addEventListener('click', createRoom);
   document.querySelector('#joinBtn').addEventListener('click', joinRoom);
-  roomDialog = new mdc.dialog.MDCDialog(document.querySelector('#room-dialog'));
+  roomDialog = new mdc.dialog.MDCDialog(document.querySelector('#room-dialog'));*/
 }
 
 async function createRoom() {
-  document.querySelector('#createBtn').disabled = true;
-  document.querySelector('#joinBtn').disabled = true;
   const db = firebase.firestore();
   const roomRef = await db.collection('rooms').doc();
 
@@ -68,8 +66,8 @@ async function createRoom() {
   await roomRef.set(roomWithOffer);
   roomId = roomRef.id;
   console.log(`New room created with SDP offer. Room ID: ${roomRef.id}`);
-  document.querySelector(
-      '#currentRoom').innerText = `Current room is ${roomRef.id} - You are the caller!`;
+  /*document.querySelector(
+      '#currentRoom').innerText = `Current room is ${roomRef.id} - You are the caller!`;*/
   // Code for creating a room above
 
   peerConnection.addEventListener('track', event => {
@@ -102,21 +100,14 @@ async function createRoom() {
     });
   });
   // Listen for remote ICE candidates above
+  return roomRef.id;
 }
 
 function joinRoom() {
-  document.querySelector('#createBtn').disabled = true;
-  document.querySelector('#joinBtn').disabled = true;
 
-  document.querySelector('#confirmJoinBtn').
-      addEventListener('click', async () => {
-        roomId = document.querySelector('#room-id').value;
-        console.log('Join room: ', roomId);
-        document.querySelector(
-            '#currentRoom').innerText = `Current room is ${roomId} - You are the callee!`;
-        await joinRoomById(roomId);
-      }, {once: true});
-  roomDialog.open();
+  
+         joinRoomById(roomId);
+     
 }
 
 async function joinRoomById(roomId) {
@@ -185,18 +176,29 @@ async function joinRoomById(roomId) {
 }
 
 async function openUserMedia(e) {
+  let _width = 120 , _height = 80 ;
   const stream = await navigator.mediaDevices.getUserMedia(
-      {video: true, audio: true});
+      {
+        video: {
+          width: {
+            ideal: _width
+          },
+          height: {
+            ideal: _height
+          },
+          frameRate: 25,
+          aspectRatio: {
+            exact: _width / _height,
+          },
+        }, audio: true
+      });
   document.querySelector('#localVideo').srcObject = stream;
   localStream = stream;
   remoteStream = new MediaStream();
-  document.querySelector('#remoteVideo').srcObject = remoteStream;
+ // document.querySelector('#remoteVideo').srcObject = remoteStream;
 
   console.log('Stream:', document.querySelector('#localVideo').srcObject);
-  document.querySelector('#cameraBtn').disabled = true;
-  document.querySelector('#joinBtn').disabled = false;
-  document.querySelector('#createBtn').disabled = false;
-  document.querySelector('#hangupBtn').disabled = false;
+  
 }
 
 async function hangUp(e) {
@@ -215,11 +217,7 @@ async function hangUp(e) {
 
   document.querySelector('#localVideo').srcObject = null;
   document.querySelector('#remoteVideo').srcObject = null;
-  document.querySelector('#cameraBtn').disabled = false;
-  document.querySelector('#joinBtn').disabled = true;
-  document.querySelector('#createBtn').disabled = true;
-  document.querySelector('#hangupBtn').disabled = true;
-  document.querySelector('#currentRoom').innerText = '';
+ 
 
   // Delete room on hangup
   if (roomId) {

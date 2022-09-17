@@ -8,7 +8,7 @@ public interface LiftDomainService {
 
     void updateLiftFloor(UUID id, short floor);
 
-    UUID matchPairs(UUID id, Theme theme);
+    String matchPairs(UUID id, Theme theme, String roomId);
 
-    UUID createLiftFloor(short floor);
+    UUID createLift();
 }

@@ -1,8 +1,49 @@
 
+let host = "http://localhost:8080", methodPrefix = "/lift/api/v1", key , _roomId;
+async function getKey() {
+  if(key === undefined) {
+    let urlString = `${host}/lift/api/v1/getKey`;
+    const url = new URL(urlString);
+    const response = await fetch(url);
+    key = await response.json();
+  }
+}
+key= getKey();
+console.log(key);
+
+async function selectTheme(themeValue){
+  _roomId = await createRoom();
+  if(_roomId)
+  {
+    let urlString = `${host}${methodPrefix}/meetings/${key}/themes/${themeValue}/roomId/${_roomId}`;
+    const url = new URL(urlString);
+    const response = await fetch(url);
+    if(response.text !== "OK") {//Match another visitor
+      roomId = response.text;
+      hangUp();
+      joinRoom(_roomId);
+      waiting(false);
+    }
+    else
+      waiting(true);
+  }
+}
+
+function waiting(status){
+  if(status)
+    $("div#waitingDiv").show();
+  else
+    $("div#waitingDiv").hide();    
+}
+
+$("#pillsTheme button").on("click" ,async function(){
+  selectTheme($(this).attr("value"));
+});
 
 $('a.nav-link').on('hidden.bs.tab', function (e) {
   if ($(e.target).attr("href") === "#v-pills-profile") {
     let vid = document.getElementById("myVideo");
+    if(vid)
     vid.pause();
 
   }
@@ -13,55 +54,15 @@ $('a.nav-link').on('hidden.bs.tab', function (e) {
 $('a.nav-link').on('shown.bs.tab', function (e) {
   if ($(e.target).attr("href") === "#v-pills-profile") {
     let vid = document.getElementById("myVideo");
+    if(vid)
     vid.play();
 
   }
   // newly activated tab
   e.relatedTarget // previous active tab
 })
+$(document).ready(function(){
+  //createRoom();
+  openUserMedia();
+});
 
-
-function getCookie(name) {
-  var dc = document.cookie;
-  var prefix = name + "=";
-  var begin = dc.indexOf("; " + prefix);
-  if (begin == -1) {
-    begin = dc.indexOf(prefix);
-    if (begin != 0) return null;
-  }
-  else {
-    begin += 2;
-    var end = document.cookie.indexOf(";", begin);
-    if (end == -1) {
-      end = dc.length;
-    }
-  }
-  // because unescape has been deprecated, replaced with decodeURI
-  //return unescape(dc.substring(begin + prefix.length, end));
-  return decodeURI(dc.substring(begin + prefix.length, end));
-}
-function setCookie(name, value, days) {
-  var expires = "";
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-function eraseCookie(name) {
-  document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-async function checkCookie() {
-  let key = getCookie("Key");
-
-  if (key == null) {
-    const response = await fetch("/getKey");
-    var data = await response.json();
-    setCookie("Key", data);
-  }
-
-}
-
-checkCookie();

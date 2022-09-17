@@ -20,4 +20,5 @@ public class Lift {
     private short lastFloor;
     private Long speedUnit;
     private Long duration;
+    private String roomId;
 }
