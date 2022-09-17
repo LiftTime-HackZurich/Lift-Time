@@ -22,231 +22,26 @@
     <title>LiftTime</title>
   </head>
   <body>
-    <input type="hidden" id="room-id" class="mdc-text-field__input">
+    <input type="hidden" id="room-id" class="mdc-text-field__input" />
     <div class="customContainer">
-      <div class="row">
-        <div class="col-12 floorContainer">
-          <div class="row" role="group" aria-label="First group">
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                1
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                2
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                3
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                4
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                5
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                6
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                7
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                8
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                9
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                10
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                11
-              </button>
-            </div>
-
-            <div class="xs-pd col-1">
-              <button type="button" class="btn btn-warning btn-block btn-lg">
-                12
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div
-          class="nav flex-column nav-pills col-4"
-          id="v-pills-tab"
-          role="tablist"
-          aria-orientation="vertical"
-        >
-          <a
-            class="nav-link active text-center"
-            id="pillsTheme-tab"
-            data-toggle="pill"
-            href="#pillsTheme"
-            role="tab"
-            aria-controls="pillsTheme"
-            aria-selected="true"
-            >Video Conferance</a
-          >
-          <a
-            class="nav-link text-center"
-            id="v-pills-profile-tab"
-            data-toggle="pill"
-            href="#v-pills-profile"
-            role="tab"
-            aria-controls="v-pills-profile"
-            aria-selected="false"
-            >News</a
-          >
-          <a
-            class="nav-link text-center"
-            id="v-pills-messages-tab"
-            data-toggle="pill"
-            href="#v-pills-messages"
-            role="tab"
-            aria-controls="v-pills-messages"
-            aria-selected="false"
-            >Weather</a
-          >
-          <a
-            class="nav-link text-center"
-            id="v-pills-settings-tab"
-            data-toggle="pill"
-            href="#v-pills-settings"
-            role="tab"
-            aria-controls="v-pills-settings"
-            aria-selected="false"
-            >Traffic</a
-          >
-          <a
-            class="nav-link text-center"
-            id="v-fun-videos-settings-tab"
-            data-toggle="pill"
-            href="#v-pills-settings"
-            role="tab"
-            aria-controls="v-pills-settings"
-            aria-selected="false"
-            >Fun Videos</a
-          >
-        </div>
-        <div class="tab-content col-8" id="v-pills-tabContent">
-          <div
-            class="tab-pane fade show active"
-            id="pillsTheme"
-            role="tabpanel"
-            aria-labelledby="pillsTheme-tab"
-          >
-            <button class="btn btn-warning btn-lg btn-block" disabled id="btnSport" value="SPORT">Sport</button>
-            <button class="btn btn-warning btn-lg btn-block" disabled id="btnMagazine" value="MAGAZIN">Magazine</button>
-            <button class="btn btn-warning btn-lg btn-block" disabled id="btnNational" value="HOBY">National</button>
-
-            <div id="waitingDiv" style="display: none;"> <span>Please Wait...</span></div>
-          <span id="spanLiftId">{Empty}</span>
-            <video id="localVideo" muted autoplay playsinline></video>
-            <video id="remoteVideo" muted autoplay playsinline></video>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="v-pills-profile"
-            role="tabpanel"
-            aria-labelledby="v-pills-profile-tab"
-          >
-            <!-- <iframe
-            id="iframeVideo"
-              src="https://abcnews.go.com/video/embed?id=39711730"
-              width="640"
-              height="360"
-              scrolling="no"
-              style="border: none"
-              allowfullscreen
-            ></iframe> -->
-          </div>
-          <div
-            class="tab-pane fade"
-            id="v-pills-messages"
-            role="tabpanel"
-            aria-labelledby="v-pills-messages-tab"
-          >
-            <!-- <a
-              class="weatherwidget-io"
-              href="https://forecast7.com/en/40d71n74d01/new-york/"
-              data-label_1="NEW YORK"
-              data-label_2="WEATHER"
-              data-theme="original"
-              >NEW YORK WEATHER</a
+      <div class="row px-0">
+        <div class="menu">
+          <div class="col-12 floorContainer">
+            <div
+              class="button-container row"
+              role="group"
+              aria-label="First group"
             >
-            <script>
-              !(function (d, s, id) {
-                var js,
-                  fjs = d.getElementsByTagName(s)[0];
-                if (!d.getElementById(id)) {
-                  js = d.createElement(s);
-                  js.id = id;
-                  js.src = "https://weatherwidget.io/js/widget.min.js";
-                  fjs.parentNode.insertBefore(js, fjs);
-                }
-              })(document, "script", "weatherwidget-io-js");
-            </script> -->
+              <!-- the content will be filled by js dom.js-->
+            </div>
           </div>
-          <div
-            class="tab-pane fade"
-            id="v-pills-settings"
-            role="tabpanel"
-            aria-labelledby="v-pills-settings-tab"
-          >
-          <iframe src="https://embed.waze.com/iframe?zoom=12&lat=45.6906304&lon=-120.810983"
-          width="1100" height="500"></iframe>
-          </div>
+        </div>
+        <div class="display">
+          
         </div>
       </div>
-
-      <!-- <div class="row">
-        <div class="col-6">
-            <button class="btn btn-primary btn-lg btn-block">Conferance</button>
-            <button class="btn btn-primary btn-lg btn-block">News</button>
-            <button class="btn btn-primary btn-lg btn-block">Weather</button>
-            <button class="btn btn-primary btn-lg btn-block">Fun Videos</button>
-        </div>
-        <div class="col-6">
-            <button class="btn btn-primary btn-lg btn-block">Conferance</button>
-            <button class="btn btn-primary btn-block">News</button>
-            <button class="btn btn-primary btn-block">Weather</button>
-            <button class="btn btn-primary btn-block">Fun Videos</button>
-          </div>
-        </div>
-      </div> -->
     </div>
-  
+
     <script
       src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -258,10 +53,52 @@
       crossorigin="anonymous"
     ></script>
 
+    <template id="chat-menu">
+      <div class="close-button"><span id="close-chat-menu">x</span></div>
+      <div class="chat-menu">
+        <div class="chat-sub-menu" id="chat_sport">Sport</div>
+        <div class="chat-sub-menu" id="chat_magazine">Magazine</div>
+        <div class="chat-sub-menu" id="chat_hobby">Hobby</div>
+        <div class="chat-sub-menu" id="chat_disabilities">Disabilities</div>
+      </div> 
+    </template>
+
+    <template id="main-menu">
+      <div class="menu-container">
+        <div class="row">
+          <div class="menu-grid col-sm-4">
+            <div class="menu" id="funny_videos">Funy Videos</div>
+          </div>
+          <div class="menu-grid col-sm-4"></div>
+          <div class="menu-grid col-sm-4">
+            <div class="menu" id="news">News</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="menu-grid col-sm-4"></div>
+          <div class="menu-grid col-sm-4">
+            <div class="menu fat" id="say_hi">Say hi!</div>
+          </div>
+          <div class="menu-grid col-sm-4"></div>
+        </div>
+        <div class="row">
+          <div class="menu-grid col-sm-4">
+            <div class="menu" id="traffic">Traffic</div>
+          </div>
+          <div class="menu-grid col-sm-4"></div>
+          <div class="menu-grid col-sm-4">
+            <div class="menu" id="weather">Wheather</div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="chat_video">
+      <iframe src="" frameborder="0"></iframe>
+    </template>
+
     <script src="app.js"></script>
     <script src="script.js"></script>
-    
-  
-
+    <script src="dom.js"></script>
   </body>
 </html>
