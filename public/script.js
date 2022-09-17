@@ -1,37 +1,52 @@
-let host = "http://192.168.221.251:8080", methodPrefix = "/lift/api/v1", key,_roomId;
+let host = "http://192.168.228.251:8080", methodPrefix = "/lift/api/v1", key,_roomId;
 async function getKey() {
-  if (key === undefined) {
+  if (!key ) {
     key = localStorage.getItem("key");
-    let urlString = `${host}/lift/api/v1/getKey` + (key ? "/" + key : "");
+    if(!(typeof key === 'string' || key instanceof String))
+      key = undefined;
+
+    let urlString = `${host}/lift/api/v1/getKey` + (key ?"/" +  key : "");
     const url = new URL(urlString);
     const response = await fetch(url);
     key = await response.json();
-    localStorage.setItem("key", key.text());
+    if(typeof key === 'string' || key instanceof String)
+      localStorage.setItem("key", key);
+
+      
   }
+
+  if (key !== undefined)
+    activateButtons();
+
+    $("#spanLiftId").text(key);
 }
 getKey();
 console.log(key);
 
 async function selectTheme(themeValue) {
-  if (_roomId) {
-    let urlString = `${host}${methodPrefix}/meetings/${key}/themes/${themeValue}/roomId/${_roomId}`;
-    const url = new URL(urlString);
-    const response = await fetch(url);
-    let _res = await response.text();
-    if (_res !== "OK") {
-      //Match another visitor
-      _roomId = _res;
-      // hangUp();
+    const getPairs = await fetch(new URL(`${host}${methodPrefix}/getPair/${key}/themes/${themeValue}`));
+    const pair =await  getPairs.text()
+    if(!pair){
+      _roomId = await createRoom();
 
-      joinRoom(_res);
-
-      waiting(false);
-    } else {
-      _roomId = await createRoom(function () {
-        waiting(false);
-      });
+      const response = await fetch(new URL(`${host}${methodPrefix}/setRoomId/${key}/themes/${themeValue}/roomId/${_roomId}`));
+      await response.text();
+      waiting(true);
     }
-  }
+    else{
+       _roomId = pair;
+       joinRoom(_roomId);
+       waiting(false);
+    }
+   
+    
+  
+}
+
+function activateButtons(){
+  $.each($("#pillsTheme button") , function(i,val){
+    $(val).removeAttr("disabled");
+  })
 }
 
 function waiting(status) {

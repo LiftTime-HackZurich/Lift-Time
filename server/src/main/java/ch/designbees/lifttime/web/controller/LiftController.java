@@ -28,19 +28,22 @@ public class LiftController {
         return ResponseEntity.ok(ResponseEntity.noContent());
     }
 
-    @GetMapping("/meetings/{id}/themes/{themeEnum}/roomId/{roomId}")
-    public ResponseEntity matchPairs(@PathVariable UUID id, @PathVariable Theme themeEnum, @PathVariable String roomId) {
-        String matchId = liftDomainService.matchPairsOrSave(id, themeEnum,roomId);
-
-        //simpMessagingTemplate.convertAndSend("/topic/meetings/" + matchId.toString(), theme);
+    @GetMapping("/setRoomId/{id}/themes/{themeEnum}/roomId/{roomId}")
+    public ResponseEntity setRoomId(@PathVariable UUID id, @PathVariable Theme themeEnum, @PathVariable String roomId) {
+        String matchId = liftDomainService.setRoomId(id, themeEnum,roomId);
 
         return ResponseEntity.ok(matchId);
     }
 
-   
-    @GetMapping("/getKey/{id}")
-    public ResponseEntity<UUID> createLift(@PathVariable(required = false) UUID id) {
-        UUID uuid = liftDomainService.createLift(id);
+     @GetMapping("/getPair/{id}/themes/{themeEnum}")
+     public ResponseEntity getPair(@PathVariable UUID id, @PathVariable Theme themeEnum) {
+         String roomId = liftDomainService.getPair(id, themeEnum);
+         return ResponseEntity.ok(roomId);
+     }
+
+    @RequestMapping(value = {"/getKey", "/getKey/{id}"})
+    public ResponseEntity<UUID> createLift(@PathVariable(name = "id", required = false) UUID id) {
+        UUID uuid = id == null ?  liftDomainService.createLift() : liftDomainService.createLift(id);
         return ResponseEntity.ok(uuid);
     }
 

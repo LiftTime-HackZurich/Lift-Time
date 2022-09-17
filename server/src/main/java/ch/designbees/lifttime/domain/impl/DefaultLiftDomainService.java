@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,46 +36,54 @@ public class DefaultLiftDomainService implements LiftDomainService {
     // }
 
     public void updateLiftFloor(UUID id, short floor) {
-        Lift lift = getLift(id);
-        lift.setMotionState(MotionState.MOVING);
-        lift.setDuration(getDuration(floor, lift));
-        lift.setLastFloor(floor);
+        Optional<Lift> liftOptionalt = getLift(id);
+        if(liftOptionalt.isPresent()) {
+            liftOptionalt.get().setMotionState(MotionState.MOVING);
+            liftOptionalt.get().setDuration(getDuration(floor, liftOptionalt.get()));
+            liftOptionalt.get().setLastFloor(floor);
+        }
     }
 
-    public String matchPairsOrSave(UUID id, Theme theme, String roomId) {
-        Lift lift = getLift(id);
-      
-
-        if (isMatchable(theme))
-        {
-            for (Lift lif : lifts) {
-                if (!lif.getId().equals(id) /*&&  lif.getDuration()-lift.getDuration() >= 5*/) {
-                    lif.setStatus(MatchStatus.BUSY);
-                    lift.setStatus(MatchStatus.BUSY);
-                    
-                    String firstListRoomId = lif.getRoomId();
-                    lift.setRoomId(firstListRoomId);
-                    return firstListRoomId;
-                }
-            }
-        }
+    public String setRoomId(UUID id, Theme theme, String roomId) {
+        Lift lift = getLift(id).get();
         lift.setTheme(theme);
         lift.setStatus(MatchStatus.WAIT);
         lift.setRoomId(roomId);
         return "OK";
     }
 
-    private Lift getLift(UUID id) {
-        return lifts.stream()
-                .filter(lift -> lift.getId().equals( id))
-                .findFirst()
-                .get();
+    public String getPair(UUID id, Theme theme) {
+        Lift lift = getLift(id).get();
+        Optional<Lift> optionalLift = getFirstMatch(id, theme);
+        if (optionalLift.isPresent())
+        {
+            Lift firstLift = optionalLift.get();
+            firstLift.setStatus(MatchStatus.BUSY);
+            firstLift.setStatus(MatchStatus.BUSY);
+
+            String firstListRoomId = firstLift.getRoomId();
+            lift.setRoomId(firstListRoomId);
+            return firstListRoomId;
+        }
+        return null;
     }
 
-    private boolean isMatchable(Theme theme) {
 
-        return lifts.stream().anyMatch(lift -> lift.getTheme() != null && lift.getTheme().equals(  theme)
-                && lift.getStatus().equals( MatchStatus.WAIT));
+    private Optional<Lift> getLift(UUID id) {
+        return lifts.stream()
+                .filter(lift -> lift.getId().equals( id))
+                .findFirst();
+    }
+
+    private Optional<Lift> getFirstMatch(UUID id, Theme theme) {
+
+        return lifts
+                .stream()
+                .filter(lift ->
+                        !lift.getId().equals(id)
+                        && lift.getTheme() != null && lift.getTheme().equals( theme)
+                        && lift.getStatus().equals( MatchStatus.WAIT)
+                ).findFirst();
     }
 
     private long getDuration(Short dest, Lift lift) {
@@ -82,13 +91,21 @@ public class DefaultLiftDomainService implements LiftDomainService {
     }
 
     public UUID createLift(UUID id){
-        Lift lift = null;
-        if(id != null )
-            lift = getLift(id);
+        Optional<Lift> lift = getLift(id);
 
-        if(lift == null) {
-            id = UUID.randomUUID();
-            lift=Lift.builder()
+        if(!lift.isPresent()) {
+
+            id =  createLift();
+            System.out.println("Lift created " + id);
+        }
+
+        return id;
+    }
+
+    public UUID createLift(){
+
+            UUID id = UUID.randomUUID();
+            Lift lift=Lift.builder()
                     .id(id)
                     .motionState(MotionState.MOVING)
                     .status(MatchStatus.AVAILABLE)
@@ -97,8 +114,9 @@ public class DefaultLiftDomainService implements LiftDomainService {
                     .speedUnit(3L)
                     .build();
             lifts.add(lift);
-        }
+        System.out.println("Lift created (without id method) " + id);
 
         return id;
     }
+
 }

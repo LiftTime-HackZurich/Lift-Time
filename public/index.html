@@ -166,11 +166,12 @@
             role="tabpanel"
             aria-labelledby="pillsTheme-tab"
           >
-            <button class="btn btn-warning btn-lg btn-block" id="btnSport" value="SPORT">Sport</button>
-            <button class="btn btn-warning btn-lg btn-block" id="btnMagazine" value="MAGAZIN">Magazine</button>
-            <button class="btn btn-warning btn-lg btn-block" id="btnNational" value="HOBY">National</button>
+            <button class="btn btn-warning btn-lg btn-block" disabled id="btnSport" value="SPORT">Sport</button>
+            <button class="btn btn-warning btn-lg btn-block" disabled id="btnMagazine" value="MAGAZIN">Magazine</button>
+            <button class="btn btn-warning btn-lg btn-block" disabled id="btnNational" value="HOBY">National</button>
 
             <div id="waitingDiv" style="display: none;"> <span>Please Wait...</span></div>
+          <span id="spanLiftId">{Empty}</span>
             <video id="localVideo" muted autoplay playsinline></video>
             <video id="remoteVideo" muted autoplay playsinline></video>
           </div>
