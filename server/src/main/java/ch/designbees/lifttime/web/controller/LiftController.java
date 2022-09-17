@@ -4,6 +4,7 @@ import ch.designbees.lifttime.domain.LiftDomainService;
 import ch.designbees.lifttime.domainmodel.enm.Theme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class LiftController {
     }
 
     @GetMapping("/meetings/{id}/themes/{themeEnum}/roomId/{roomId}")
-    public ResponseEntity matchPairs(@PathVariable UUID id, @PathVariable String themeEnum, @PathVariable String roomId) {
-        String matchId = liftDomainService.matchPairs(id, Theme.valueOf(themeEnum),roomId);
+    public ResponseEntity matchPairs(@PathVariable UUID id, @PathVariable Theme themeEnum, @PathVariable String roomId) {
+        String matchId = liftDomainService.matchPairsOrSave(id, themeEnum,roomId);
 
         //simpMessagingTemplate.convertAndSend("/topic/meetings/" + matchId.toString(), theme);
 
@@ -37,9 +38,9 @@ public class LiftController {
     }
 
    
-    @GetMapping("/getKey")
-    public ResponseEntity<UUID> createLift() {
-        UUID uuid = liftDomainService.createLift();
+    @GetMapping("/getKey/{id}")
+    public ResponseEntity<UUID> createLift(@PathVariable(required = false) UUID id) {
+        UUID uuid = liftDomainService.createLift(id);
         return ResponseEntity.ok(uuid);
     }
 

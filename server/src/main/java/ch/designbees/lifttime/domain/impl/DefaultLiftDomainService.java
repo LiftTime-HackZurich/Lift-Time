@@ -6,6 +6,7 @@ import ch.designbees.lifttime.domainmodel.enm.MatchStatus;
 import ch.designbees.lifttime.domainmodel.enm.Theme;
 import ch.designbees.lifttime.domainmodel.model.Lift;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,14 +41,14 @@ public class DefaultLiftDomainService implements LiftDomainService {
         lift.setLastFloor(floor);
     }
 
-    public String matchPairs(UUID id, Theme theme, String roomId) {
+    public String matchPairsOrSave(UUID id, Theme theme, String roomId) {
         Lift lift = getLift(id);
       
 
         if (isMatchable(theme))
         {
             for (Lift lif : lifts) {
-                if (lif.getId() != id && lif.getDuration()-lift.getDuration() >= 5) {
+                if (!lif.getId().equals(id) /*&&  lif.getDuration()-lift.getDuration() >= 5*/) {
                     lif.setStatus(MatchStatus.BUSY);
                     lift.setStatus(MatchStatus.BUSY);
                     
@@ -57,6 +58,7 @@ public class DefaultLiftDomainService implements LiftDomainService {
                 }
             }
         }
+        lift.setTheme(theme);
         lift.setStatus(MatchStatus.WAIT);
         lift.setRoomId(roomId);
         return "OK";
@@ -64,32 +66,38 @@ public class DefaultLiftDomainService implements LiftDomainService {
 
     private Lift getLift(UUID id) {
         return lifts.stream()
-                .filter(lift -> lift.getId() == id)
+                .filter(lift -> lift.getId().equals( id))
                 .findFirst()
                 .get();
     }
 
     private boolean isMatchable(Theme theme) {
-        return lifts.stream().anyMatch(lift ->
-                lift.getTheme() == theme
-                && lift.getStatus() == MatchStatus.WAIT);
+
+        return lifts.stream().anyMatch(lift -> lift.getTheme() != null && lift.getTheme().equals(  theme)
+                && lift.getStatus().equals( MatchStatus.WAIT));
     }
 
     private long getDuration(Short dest, Lift lift) {
         return (dest - lift.getLastFloor()) * lift.getSpeedUnit();
     }
 
-    public UUID createLift(){
-        UUID id = UUID.randomUUID();
-        Lift lift = Lift.builder()
-                .id(id)
-                .motionState(MotionState.MOVING)
-                .status(MatchStatus.AVAILABLE)
-                .duration(0L)
-                .lastFloor((short)0)
-                .speedUnit(3L)
-                .build();
-        lifts.add(lift);
+    public UUID createLift(UUID id){
+        Lift lift = null;
+        if(id != null )
+            lift = getLift(id);
+
+        if(lift == null) {
+            id = UUID.randomUUID();
+            lift=Lift.builder()
+                    .id(id)
+                    .motionState(MotionState.MOVING)
+                    .status(MatchStatus.AVAILABLE)
+                    .duration(0L)
+                    .lastFloor((short) 0)
+                    .speedUnit(3L)
+                    .build();
+            lifts.add(lift);
+        }
 
         return id;
     }
