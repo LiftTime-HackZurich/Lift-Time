@@ -1,37 +1,170 @@
-body{
-    background-color:  #eefcff !important;
 
+.container {
+  width: 100%;
+  height: 100%;
 }
 
-.container{
+.leftDiv {
+  width: 50%;
+}
+.rightDiv {
+  width: 50%;
+}
+
+.customContainer {
+  padding: 100px;
+}
+
+.customContainer button {
+  margin: 20px 0 0px 0;
+}
+.customContainer .nav-link,
+.floorContainer button {
+  padding: 30px;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.customContainer > .row {
+  border: rgb(163, 205, 243) 1px solid;
+  border-radius: 10px;
+}
+
+.customContainer .menu {
+  flex: 1;
+  max-width: 200px;
+}
+
+.customContainer .display {
+  flex: 7;
+  padding: 30px 30px;
+}
+
+.customContainer .tab-content {
+  background-color: #f7feff !important;
+}
+
+.button-container {
+  width: 200px;
+  display: flex;
+  justify-content: space-around;
+  background-color: #dfe7ea;
+  height: 700px;
+}
+
+.button-container div > button {
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid #9b9999;
+}
+
+.button-container div > button:hover {
+  background-color: #f80606;
+  color: #ffffff;
+}
+
+.display {
+  background-color: transparent;
+}
+
+.display .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display .row > div {
+  width: 200px;
+  height: 200px;
+}
+
+.menu-container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.menu-container .menu-grid .menu {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  background-color: #f80606;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.menu-container .menu-grid .menu:before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 1%;
+    background-color: #ccccc9;
     width: 100%;
-    height: 100%;
+    height: 209px;
+    transform: rotate(-9deg);
+    z-index: -1;
+    border-radius: 50%;
 }
 
-.leftDiv{
-    width: 50%;
-}
-.rightDiv{
-    width: 50%;
-}
-
-.customContainer{
-    padding: 100px;
+.menu-container .menu-grid .menu:hover,
+.menu-container .menu-grid .menu:visited {
+  background-color: #ffffff;
+  color: #f80606;
+  border: 1px solid #9b9999;
+  cursor: pointer;
 }
 
-.customContainer button{
-    margin: 40px 0 40px 0;
-}
-.customContainer .nav-link, .floorContainer button{
-    padding: 30px;
-    font-size: 25px;
-    font-weight: 700;
+.fat {
+  font-weight: 900;
 }
 
-.customContainer .row{
-    border:rgb(163, 205, 243) 1px solid;
-    border-radius: 10px;
+.display{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
 }
-.customContainer .tab-content{
-    background-color: #f7feff !important;
+
+.display .chat-menu .chat-sub-menu{
+    width: 400px;
+    height: 130px;
+    border-radius: 25%;
+    border: 1px solid black;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f80606;
+    color: white;
+    cursor: pointer;
+}
+
+.display .close-button {
+   display: flex;
+   justify-content: flex-end;
+   width: 100%;
+}
+
+.display .close-button span{
+    height: 40px;
+    width: 40px;
+    background-color: #f80606;
+    color: white;
+    cursor: pointer;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+}
+
+.display .close-button span:hover{ 
+    background-color:white;
+    color: #f80606;
+}
+
+.chat-menu .chat-sub-menu:hover{
+    background-color: white;
+    color: #f80606;
 }
