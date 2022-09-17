@@ -16,7 +16,9 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/lift-time-websocket").withSockJS();
+        registry.addEndpoint("/lift-time-websocket")
+                .setAllowedOrigins("http://localhost:4200")
+                .withSockJS();
     }
 
 }
