@@ -36,6 +36,7 @@ async function selectTheme(themeValue) {
     else{
        _roomId = pair;
        joinRoom(_roomId);
+       //$(".localVideoContainer").addClass("makeSmall");
        waiting(false);
     }
    

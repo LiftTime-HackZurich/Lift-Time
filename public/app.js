@@ -174,8 +174,8 @@ async function joinRoomById(roomId) {
 }
 
 async function openUserMedia(e) {
-  let _width = 120,
-    _height = 80;
+  let _width = 320,
+    _height = 240;
   const stream = await navigator.mediaDevices.getUserMedia({
     video: {
       width: {

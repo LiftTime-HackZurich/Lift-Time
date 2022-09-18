@@ -1,5 +1,10 @@
 const dom = {};
 
+function hideAll(){
+  $(".displayInnerDiv").hide();
+}
+
+
 dom.createDiv = (type = "div", className) => {
   const element = document.createElement(type);
   element.className = className;
@@ -27,20 +32,33 @@ dom.setElevatorButtons = (count = 10) => {
 };
 
 dom.setMainMenu = () => {
-  const content = document.querySelector("#main-menu").innerHTML;
-  dom.appendChild(content, ".display");
+  /*const content = document.querySelector("#main-menu").innerHTML;
+  $("#chat_video").hide();
+  dom.appendChild(content, ".innerDisplay");*/
+
+  hideAll();
+  $(".mainMenuContainer").show();
 };
 
 dom.openChatMenu = () => {
-  const content = document.querySelector("#chat-menu").innerHTML;
-  dom.appendChild(content, ".display");
+  /*const content = document.querySelector("#chat-menu").innerHTML;
+  dom.appendChild(content, ".innerDisplay");*/
+  hideAll();
+  $("#chat-menu").show();
 };
 
 dom.getRandomMatchFromSelectedTopic = (targetId) => {
+  
     const data = targetId.replace("chat_", '').toUpperCase();
     console.log("Selected Topic", data);
-    const content = document.querySelector("#chat_video").innerHTML;
-    dom.appendChild(content, ".display");
+
+    hideAll();
+    $("#chat_video").show();
+    /*const content = document.querySelector("#chat_video").innerHTML;
+    //dom.appendChild(content, ".display");
+
+    $("#chat_video").show();
+    $(".innerDisplay").empty();*/
     selectTheme(data);
 };
 
@@ -60,12 +78,13 @@ dom.setEventListeners = () => {
         break;
       case "close-main-menu":
       case "close-chat-menu":
-        dom.setMainMenu();
+        location.reload();  
+      //dom.setMainMenu();
         break;
 
       case "chat_sport":
-      case "chat_magazine":
-      case "chat_hobby":
+      case "chat_magazin":
+      case "chat_hoby":
       case "chat_disabilities":
         dom.getRandomMatchFromSelectedTopic(e.target.id);
         break;

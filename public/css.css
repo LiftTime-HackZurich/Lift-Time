@@ -168,3 +168,33 @@
     background-color: white;
     color: #f80606;
 }
+
+.makeSmall{
+  width: 200px;
+  position: absolute;
+  left: 55%;
+  top: 63%;
+
+}
+
+.localVideoContainer {
+  float: left;
+  border: #9b9999  1px solid;
+  border-radius: 10px;
+  padding: 5px;
+  min-width: 320px;
+  min-height: 240px;
+}
+
+.remoteVideoContainer {
+  float: left;
+  border:#f80606 1px solid;
+  border-radius: 10px;
+  padding: 5px;
+ 
+}
+
+video{
+  min-width: 320px;
+  min-height: 200px;
+}
